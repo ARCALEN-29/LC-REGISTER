@@ -1,0 +1,163 @@
+.hidden { display: none !important; }
+
+.print-sheet {
+    display: none;
+    background: white;
+    color: black;
+    padding: 40px;
+    width: 794px; /* A4 width approx */
+    margin: 0 auto;
+    border: 20px solid transparent;
+    border-image: linear-gradient(45deg, var(--oro-aries), var(--rojo-brasa)) 20;
+    outline: 5px solid var(--rojo-brasa);
+    outline-offset: -25px;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    box-sizing: border-box;
+}
+.print-header {
+    text-align: center;
+    border-bottom: 3px double var(--oro-aries);
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+.print-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 48px;
+    margin: 0;
+    color: #000;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+.print-header .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    letter-spacing: 5px;
+    margin: 10px 0;
+    color: var(--rojo-brasa);
+    font-weight: bold;
+    border-bottom: 1px solid var(--oro-aries);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+.print-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+.print-item {
+    margin-bottom: 15px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.print-label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: #666;
+    width: 140px;
+    display: block;
+}
+.badge-hex {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: var(--oro-aries);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    margin-right: 5px;
+}
+.print-footer {
+    margin-top: 60px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    padding-top: 30px;
+}
+.print-footer .phrase {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 40px;
+    display: block;
+    color: #444;
+}
+.signature-block {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+.signature-line {
+    border-top: 1px solid black;
+    width: 200px;
+    margin-top: 50px;
+    padding-top: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+@media print {
+    body * { visibility: hidden; }
+    #print-area, #print-area * { visibility: visible; }
+    #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: block !important;
+    }
+    .print-sheet { display: block !important; }
+}
+
+/* MODAL PREMIUM */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-card {
+    background: var(--carbon-profundo);
+    border: 2px solid var(--oro-aries);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.modal-overlay.active .modal-card {
+    transform: scale(1);
+}
+.modal-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    display: block;
+}
+.modal-title {
+    font-family: 'Cinzel', serif;
+    color: var(--oro-aries);
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+.modal-text {
+    color: var(--marfil-calido);
+    font-size: 15px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
