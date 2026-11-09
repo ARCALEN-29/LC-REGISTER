@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    
+<form id="user-form" class="hidden fade-in">
+    <input type="hidden" id="userRole">
+
+    <div id="student-stepper-container" class="hidden">
+        <div class="stepper-container">
+            <div class="step-item active" id="step-1-indicator">
+                <div class="step-circle">1</div>
+                <div class="step-label">Identidad</div>
+            </div>
+            <div class="step-item" id="step-2-indicator">
+                <div class="step-circle">2</div>
+                <div class="step-label">Ubicación</div>
+            </div>
+            <div class="step-item" id="step-3-indicator">
+                <div class="step-circle">3</div>
+                <div class="step-label">Socioeconómico</div>
+            </div>
+            <div class="step-item" id="step-4-indicator">
+                <div class="step-circle">4</div>
+                <div class="step-label">Tutor</div>
+            </div>
+            <div class="step-item" id="step-5-indicator">
+                <div class="step-circle">5</div>
+                <div class="step-label">Académico</div>
+            </div>
+        </div>
+
+        <div id="student-steps">
+            <!-- PASO 1: IDENTIDAD -->
+            <div class="step-content section-container visible" id="step-1">
+                <span class="section-title">
+                    <i class="fas fa-user"></i> 
+                    Paso 1: Datos de Identificación
+                </span>
+                <div class="grid-layout space-y-4">
+                    <div class="space-y-4">
+                        <div class="mb-1">
+                            <label class="label-premium">Código RUDE</label>
+                            <input type="text" id="rudeCode" class="input-premium" placeholder="Opcional o autogenerado">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Nacionalidad</label>
+                            <select id="studentNationality" class="input-premium" onchange="toggleForeignerFields()">
+                                <option value="Boliviana">Boliviana</option>
+                                <option value="Extranjera">Extranjera</option>
+                            </select>
+                        </div>
+                        <div id="bolivian-id-fields" class="mb-1">
+                            <label class="label-premium">Cédula de Identidad</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="studentCI" class="input-premium" placeholder="Número" style="flex: 2;">
+                                <input type="text" id="studentCIComp" class="input-premium" placeholder="Comp." style="flex: 1;">
+                                <select id="studentCIExp" class="input-premium" style="flex: 1;">
+                                    <option value="">Exp.</option>
+                                    <option value="TJA">TJA</option>
+                                    <option value="LP">LP</option>
+                                    <option value="CB">CB</option>
+                                    <option value="SC">SC</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PTo">PTo</option>
+                                    <option value="CH">CH</option>
+                                    <option value="BEN">BEN</option>
+                                    <option value="PAD">PAD</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="foreigner-id-fields" class="hidden mb-1">
+                            <label class="label-premium">Tipo de Documento Extranjero</label>
+                            <input type="text" id="foreignDocType" class="input-premium" placeholder="Pasaporte, Carnet, etc.">
+                            <label class="label-premium" style="margin-top:10px">Número de Documento</label>
+                            <input type="text" id="foreignDocNum" class="input-premium" placeholder="Número de documento">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Nombres</label>
+                            <input type="text" id="studentNames" class="input-premium" required>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Primer Apellido</label>
+                            <input type="text" id="studentFirstLast" class="input-premium" required>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Segundo Apellido</label>
+                            <input type="text" id="studentSecondLast" class="input-premium" required>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="mb-1">
+                            <label class="label-premium">Fecha de Nacimiento</label>
+                            <input type="date" id="studentBirth" class="input-premium" required>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Sexo</label>
+                            <select id="studentSex" class="input-premium">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <span class="label-premium" style="margin-top: 20px;">Certificado de Nacimiento</span>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <input type="text" id="certOficialia" class="input-premium" placeholder="Oficialía N°">
+                            <input type="text" id="certLibro" class="input-premium" placeholder="Libro N°">
+                            <input type="text" id="certPartida" class="input-premium" placeholder="Partida N°">
+                            <input type="text" id="certFolio" class="input-premium" placeholder="Folio N°">
+                        </div>
+                        <span class="label-premium" style="margin-top: 20px;">Lugar de Nacimiento</span>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <select id="birthDept" class="input-premium" onchange="updateProvinces('birthDept', 'birthProv')">
+                                <option value="">Departament</option>
+                                <option value="La Paz">La Paz</option>
+                                <option value="Oruro">Oruro</option>
+                                <option value="Potosí">Potosí</option>
+                                <option value="Cochabamba">Cochabamba</option>
+                                <option value="Chuquisaca">Chuquisaca</option>
+                                <option value="Tarija">Tarija</option>
+                                <option value="Santa Cruz">Santa Cruz</option>
+                                <option value="Beni">Beni</option>
+                                <option value="Pando">Pando</option>
+                            </select>
+                            <input type="text" id="birthProv" class="input-premium" placeholder="Provincia">
+                            <input type="text" id="birthMuni" class="input-premium" placeholder="Municipio">
+                            <input type="text" id="birthLoc" class="input-premium" placeholder="Localidad">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2: UBICACIÓN -->
+            <div class="step-content section-container hidden" id="step-2">
+                <span class="section-title">
+                    <i class="fas fa-map-marker-alt"></i> 
+                    Paso 2: Dirección y Ubicación
+                </span>
+                <div class="grid-layout space-y-4">
+                    <div class="space-y-4">
+                        <span class="label-premium">Ubicación Actual</span>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <select id="addrDept" class="input-premium" onchange="updateProvinces('addrDept', 'addrProv')">
+                                <option value="">Departament</option>
+                                <option value="La Paz">La Paz</option>
+                                <option value="Oruro">Oruro</option>
+                                <option value="Potosí">Potosí</option>
+                                <option value="Cochabamba">Cochabamba</option>
+                                <option value="Chuquisaca">Chuquisaca</option>
+                                <option value="Tarija">Tarija</option>
+                                <option value="Santa Cruz">Santa Cruz</option>
+                                <option value="Beni">Beni</option>
+                                <option value="Pando">Pando</option>
+                            </select>
+                            <input type="text" id="addrProv" class="input-premium" placeholder="Provincia">
+                            <input type="text" id="addrMuni" class="input-premium" placeholder="Municipio">
+                            <input type="text" id="addrLoc" class="input-premium" placeholder="Localidad/Ciudad">
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="mb-1">
+                            <label class="label-premium">Zona / Barrio</label>
+                            <input type="text" id="addrZona" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Avenida / Calle</label>
+                            <input type="text" id="addrCalle" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Número de Vivienda</label>
+                            <input type="text" id="addrNum" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Teléfono Fijo / Celular Domicilio</label>
+                            <input type="text" id="addrPhone" class="input-premium">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 3: SOCIOECONÓMICO -->
+            <div class="step-content section-container hidden" id="step-3">
+                <span class="section-title">
+                    <i class="fas fa-wallet"></i> 
+                    Paso 3: Socioeconómico y Salud
+                </span>
+                <div class="grid-layout space-y-4">
+                    <div class="space-y-4">
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">IDIOMAS Y PERTENENCIA CULTURAL</span>
+                        <div class="mb-1">
+                            <label class="label-premium">Idioma que aprendió a hablar en su niñez</label>
+                            <input type="text" id="langChildhood" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Idioma que habla frecuentemente</label>
+                            <input type="text" id="langFrequent" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">¿Pertenece a alguna nación pueblo indígena originario campesino o afroboliviano?</label>
+                            <select id="nationOrigin" class="input-premium">
+                                <option value="Ninguno">Ninguno</option>
+                                <option value="Araona">Araona</option>
+                                <option value="Ayoreo">Ayoreo</option>
+                                <option value="Baure">Baure</option>
+                                <option value="Canichana">Canichana</option>
+                                <option value="Cavineño">Cavineño</option>
+                                <option value="Cayubaba">Cayubaba</option>
+                                <option value="Chácobo">Chácobo</option>
+                                <option value="Chimán">Chimán</option>
+                                <option value="Ese Ejja">Ese Ejja</option>
+                                <option value="Guarayo">Guarayo</option>
+                                <option value="Guarasuwi">Guarasuwi</option>
+                                <option value="Itonama">Itonama</option>
+                                <option value="Joara">Joara</option>
+                                <option value="Leco">Leco</option>
+                                <option value="Machajuyai">Machajuyai</option>
+                                <option value="Machineri">Machineri</option>
+                                <option value="Maropa">Maropa</option>
+                                <option value="Moré">Moré</option>
+                                <option value="Mosetén">Mosetén</option>
+                                <option value="Nueva Eté">Nueva Eté</option>
+                                <option value="Pacahuara">Pacahuara</option>
+                                <option value="Sirionó">Sirionó</option>
+                                <option value="Tacana">Tacana</option>
+                                <option value="Tsimané">Tsimané</option>
+                                <option value="Uru Chipaya">Uru Chipaya</option>
+                                <option value="Uru Izoceño">Uru Izoceño</option>
+                                <option value="Weenhayek">Weenhayek</option>
+                                <option value="Yaminahua">Yaminahua</option>
+                                <option value="Yuki">Yuki</option>
+                                <option value="Zamuco">Zamuco</option>
+                                <option value="Aymara">Aymara</option>
+                                <option value="Quechua">Quechua</option>
+                                <option value="Guaraní">Guaraní</option>
+                                <option value="Afroboliviano">Afroboliviano</option>
+                                <option value="Campesino">Campesino</option>
+                            </select>
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">SALUD</span>
+                        <div class="mb-1">
+                            <label class="label-premium">¿Existe Centro de Salud / Posta / Hospital en su comunidad?</label>
+                            <select id="hasHealthCenter" class="input-premium">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">El año pasado, por problemas de salud, acudió o se atendió en:</label>
+                            <input type="text" id="healthCarePlace" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">El año pasado, ¿cuántas veces fue al Centro de Salud?</label>
+                            <input type="number" id="healthCenterVisits" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">¿Tiene Seguro de Salud?</label>
+                            <select id="hasInsurance" class="input-premium">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">DISCAPACIDAD</span>
+                        <div class="mb-1">
+                            <label class="label-premium">¿El estudiante presenta alguna discapacidad?</label>
+                            <select id="hasDisability" class="input-premium" onchange="toggleDisabilityDetail()">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                        <div id="disability-detail-block" class="hidden mb-1">
+                            <label class="label-premium">¿Cuál discapacidad presenta?</label>
+                            <input type="text" id="disabilityType" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">¿Tiene algún trastorno?</label>
+                            <input type="text" id="hasDisorder" class="input-premium" placeholder="Describa el trastorno si aplica">
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">TALENTO EXTRAORDINARIO</span>
+                        <div class="mb-1">
+                            <label class="label-premium">¿El estudiante cuenta con un informe psicopedagógico integral que acredite talento extraordinario?</label>
+                            <select id="hasTalentReport" class="input-premium">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <span class="label-premium" 
+                            style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">
+                            ACCESO A SERVICIOS BÁSICOS
+                        </span>
+                        <div class="grid-services">
+                            <label class="checkbox-premium">
+                                <input type="checkbox" id="svcWater">
+                                <span class="checkbox-custom"></span>
+                                <span class="label-text">Agua potable</span>
+                            </label>
+                            <label class="checkbox-premium">
+                                <input type="checkbox" id="svcSewage">
+                                <span class="checkbox-custom"></span>
+                                <span class="label-text">Alcantarillado</span>
+                            </label>
+                            <label class="checkbox-premium">
+                                <input type="checkbox" id="svcElectric">
+                                <span class="checkbox-custom"></span>
+                                <span class="label-text">Energía eléctrica</span>
+                            </label>
+                            <label class="checkbox-premium">
+                                <input type="checkbox" id="svcGas">
+                                <span class="checkbox-custom"></span>
+                                <span class="label-text">Gas domiciliario</span>
+                            </label>
+                            <label class="checkbox-premium">
+                                <input type="checkbox" id="svcTrash">
+                                <span class="checkbox-custom"></span>
+                                <span class="label-text">Recojo de basura</span>
+                            </label>
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">ACCESO A INTERNET</span>
+                        <div class="mb-1">
+                            <label class="label-premium">Acceso a internet en el hogar</label>
+                            <select id="hasInternet" class="input-premium">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Dispositivos principales de uso</label>
+                            <input type="text" id="techDevices" class="input-premium" placeholder="Ej: Tablet, PC, Celular">
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">ACTIVIDAD LABORAL</span>
+                        <div class="mb-1">
+                            <label class="label-premium">En la pasada gestión, ¿el estudiante trabajó?</label>
+                            <select id="didWork" class="input-premium" onchange="toggleWorkDetails()">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                        <div id="work-details-block" class="hidden space-y-4" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px;">
+                            <div class="mb-1">
+                                <label class="label-premium">Meses que trabajó</label>
+                                <input type="number" id="workMonths" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">¿En qué actividad trabajó el estudiante?</label>
+                                <input type="text" id="workActivity" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">¿En qué turno trabajó el estudiante?</label>
+                                <input type="text" id="workShift" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">¿Recibió algún pago?</label>
+                                <select id="workPayment" class="input-premium">
+                                    <option value="No">No</option>
+                                    <option value="Sí">Sí</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">MEDIO DE TRANSPORTE</span>
+                        <div class="mb-1">
+                            <label class="label-premium">Generalmente, ¿cómo llega el estudiante a la Unidad Educativa?</label>
+                            <select id="transportMethod" class="input-premium" onchange="toggleTransportOther()">
+                                <option value="Caminando">Caminando</option>
+                                <option value="Transporte Público">Transporte Público</option>
+                                <option value="Vehículo Particular">Vehículo Particular</option>
+                                <option value="Bicicleta">Bicicleta</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div id="transport-other-block" class="hidden mb-1">
+                            <label class="label-premium">Otro medio de transporte</label>
+                            <input type="text" id="transportOther" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Tiempo máximo que demora desde su vivienda hasta la U.E.</label>
+                            <input type="text" id="transportTime" class="input-premium" placeholder="Ej: 30 min">
+                        </div>
+
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">ABANDONO ESCOLAR (GESTIÓN ANTERIOR)</label>
+                        <div class="mb-1">
+                            <label class="label-premium">¿El estudiante abandonó la Unidad Educativa el año pasado?</label>
+                            <select id="didAbandon" class="input-premium" onchange="toggleAbandonReasons()">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                        <div id="abandon-reasons-block" class="hidden mb-1">
+                            <label class="label-premium">¿Cuál o cuáles fueron las razones de abandono escolar?</label>
+                            <textarea id="abandonReasons" class="input-premium" style="height: 80px; resize: none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 4: TUTOR -->
+            <div class="step-content section-container hidden" id="step-4">
+                <span class="section-title">
+                    <i class="fas fa-users"></i> Paso 4: Padre, Madre o Tutor Legal</span>
+                <div class="grid-layout space-y-4">
+                    <div class="space-y-4">
+                        <div class="mb-1">
+                            <label class="label-premium">Vínculo</label>
+                            <select id="tutorRelation" class="input-premium" onchange="toggleTutorSecondary()">
+                                <option value="none">SELECCIONAR</option>
+                                <option value="Ambos (Padre y Madre)">Ambos (Padre y Madre)</option>
+                                <option value="Padre">Padre</option>
+                                <option value="Madre">Madre</option>
+                                <option value="Tutor/a Legal">Tutor/a Legal</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">C.I. del Tutor 1</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="tutorCI" class="input-premium" placeholder="Número" style="flex: 2;">
+                                <select id="tutorCIExp" class="input-premium" style="flex: 1;">
+                                    <option value="">Exp.</option>
+                                    <option value="TJA">TJA</option>
+                                    <option value="LP">LP</option>
+                                    <option value="CB">CB</option>
+                                    <option value="SC">SC</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PTo">PTo</option>
+                                    <option value="CH">CH</option>
+                                    <option value="BEN">BEN</option>
+                                    <option value="PAD">PAD</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Nombres y Apellidos Tutor 1</label>
+                            <input type="text" id="tutorFullName" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Celular Tutor 1</label>
+                            <input type="text" id="tutorPhone" class="input-premium">
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div id="tutor-secondary-block" class="hidden space-y-4" style="border-left: 2px solid var(--oro-aries); padding-left: 15px; margin-bottom: 20px;">
+                            <span class="label-premium" style="color: var(--oro-aries); font-weight: bold;">Información Tutor 2</span>
+                            <div class="mb-1">
+                                <label class="label-premium">C.I. del Tutor 2</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="tutor2CI" class="input-premium" placeholder="Número" style="flex: 2;">
+                                    <select id="tutor2CIExp" class="input-premium" style="flex: 1;">
+                                        <option value="">Exp.</option>
+                                        <option value="TJA">TJA</option>
+                                        <option value="LP">LP</option>
+                                        <option value="CB">CB</option>
+                                        <option value="SC">SC</option>
+                                        <option value="OR">OR</option>
+                                        <option value="PTo">PTo</option>
+                                        <option value="CH">CH</option>
+                                        <option value="BEN">BEN</option>
+                                        <option value="PAD">PAD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Nombres y Apellidos Tutor 2</label>
+                                <input type="text" id="tutor2FullName" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Celular Tutor 2</label>
+                                <input type="text" id="tutor2Phone" class="input-premium">
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Idioma de Mayor Uso</label>
+                            <input type="text" id="tutorLang" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Ocupación u Oficio Principal</label>
+                            <input type="text" id="tutorJob" class="input-premium">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Grado de Instrucción Alcanzado</label>
+                            <input type="text" id="tutorEdu" class="input-premium">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 5: CREDENCIALES Y ACADÉMICO -->
+            <div class="step-content section-container hidden" id="step-5">
+                <span class="section-title">
+                    <i class="fas fa-graduation-cap"></i> Paso 5: Historial Académico y Credenciales</span>
+                <div class="grid-layout space-y-4">
+                    <div class="space-y-4">
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">PROMEDIOS GESTIÓN ANTERIOR</span>
+                        <div class="mb-1">
+                            <label class="label-premium">Promedio 1er Trimestre</label>
+                            <input type="number" step="0.01" id="gradeT1" class="input-premium" oninput="calculateFinalGrade()">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Promedio 2do Trimestre</label>
+                            <input type="number" step="0.01" id="gradeT2" class="input-premium" oninput="calculateFinalGrade()">
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Promedio 3er Trimestre</label>
+                            <input type="number" step="0.01" id="gradeT3" class="input-premium" oninput="calculateFinalGrade()">
+                        </div>
+                        <div class="mb-1" style="margin-top: 15px; padding: 10px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid var(--oro-aries);">
+                            <label class="label-premium" style="color: white; font-weight: bold;">PROMEDIO FINAL AUTOMÁTICO</label>
+                            <input type="text" id="finalGrade" class="input-premium" readonly style="font-weight: bold; color: var(--oro-aries); text-align: center; font-size: 20px;">
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">CREDENCIALES DE ACCESO</span>
+                        <div class="mb-1">
+                            <label class="label-premium">Correo Electrónico</label>
+                            <input type="email" id="userEmailStudent" class="input-premium" placeholder="correo@estudiante.com" required>
+                        </div>
+                        <div class="mb-1">
+                            <label class="label-premium">Contraseña Generada</label>
+                            <div class="password-wrapper">
+                                <input type="text" id="userGeneratedPass" class="input-premium" readonly>
+                                <span class="toggle-password" onclick="togglePass('userGeneratedPass', this)">👁️</span>
+                            </div>
+                            <button type="button" id="gen-pass-btn" class="btn-premium" style="margin-top: 10px; padding: 10px; font-size: 12px;">GENERAR CONTRASEÑA SEGURA (16 CARACTERES)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; display: flex; gap: 20px;">
+            <button type="button" id="prev-step-btn" class="btn-premium" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--oro-aries); flex: 1;" disabled>
+                ANTERIOR
+            </button>
+            <button type="button" id="next-step-btn" class="btn-premium" style="flex: 1;">
+                SIGUIENTE
+            </button>
+        </div>
+        <div id="final-actions" class="hidden" style="margin-top: 30px; text-align: center;">
+            <button type="button" id="reg-btn" class="btn-premium" style="padding: 20px; font-size: 18px; max-width: 500px;">
+                REGISTRAR ESTUDIANTE Y GENERAR FICHA RUDE
+            </button>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <button type="button" id="back-btn" class="btn-premium" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--oro-aries); width: auto; padding: 10px 30px;">
+                ← VOLVER A SELECCIONAR ROL
+            </button>
+        </div>
+    </div>
+</form>
+</body>

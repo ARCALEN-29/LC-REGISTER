@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Portal | LC Academy</title>
+    <link rel="icon" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <form id="user-form" class="fade-in">
+        <input type="hidden" id="userRole" value="teacher">
+    
+        <div id="teacher-stepper-container">
+            <div class="stepper-container">
+                <div class="step-item active" id="step-1-indicator">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Identidad</div>
+                </div>
+                <div class="step-item" id="step-2-indicator">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Ubicación</div>
+                </div>
+                <div class="step-item" id="step-3-indicator">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Redes</div>
+                </div>
+                <div class="step-item" id="step-4-indicator">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Especialidad</div>
+                </div>
+                <div class="step-item" id="step-5-indicator">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Credenciales</div>
+                </div>
+            </div>
+            <div id="teacher-steps">
+                
+                <!-- PASO 1: IDENTIDAD -->
+                <div class="step-content section-container visible" id="step-1">
+                    <span class="section-title">
+                        <i class="fas fa-user"></i> 
+                        Paso 1: Datos de Identificación del Docente
+                    </span> 
+                    <div class="grid-layout space-y-4">
+                        <div class="space-y-4">
+                            <div class="mb-1">
+                                <label class="label-premium">RDA (Registro Docente Administrativo)</label>
+                                <input type="text" id="rdaCode" class="input-premium" placeholder="Obligatorio">
+                            </div>
+                            <div id="bolivian-id-fields" class="mb-1">
+                                <label class="label-premium">Cédula de Identidad</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="teacherCI" class="input-premium" placeholder="Número" style="flex: 2;">
+                                    <input type="text" id="teacherCIComp" class="input-premium" placeholder="Comp." style="flex: 1;">
+                                    <select id="teacherCIExp" class="input-premium" style="flex: 1;">
+                                        <option value="">Exp.</option>
+                                        <option value="TJA">TJA</option>
+                                        <option value="LP">LP</option>
+                                        <option value="CB">CB</option>
+                                        <option value="SC">SC</option>
+                                        <option value="OR">OR</option>
+                                        <option value="PTo">PTo</option>
+                                        <option value="CH">CH</option>
+                                        <option value="BEN">BEN</option>
+                                        <option value="PAD">PAD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Nombres</label>
+                                <input type="text" id="teacherNames" class="input-premium" placeholder="Nombres Completos" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Primer Apellido</label>
+                                <input type="text" id="teacherFirstLast" class="input-premium" placeholder="Primer Apellido" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Segundo Apellido</label>
+                                <input type="text" id="teacherSecondLast" class="input-premium" placeholder="Segundo Apellido" required>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="mb-1">
+                                <label class="label-premium">Fecha de Nacimiento</label>
+                                <input type="date" id="teacherBirth" class="input-premium" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Sexo</label>
+                                <select id="teacherSex" class="input-premium">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <span class="label-premium" style="margin-top: 20px;">Certificado de Nacimiento</span>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <input type="text" id="certOficialia" class="input-premium" placeholder="Oficialía N°">
+                                <input type="text" id="certLibro" class="input-premium" placeholder="Libro N°">
+                                <input type="text" id="certPartida" class="input-premium" placeholder="Partida N°">
+                                <input type="text" id="certFolio" class="input-premium" placeholder="Folio N°">
+                            </div>
+                            <span class="label-premium" style="margin-top: 20px;">Lugar de Nacimiento</span>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <select id="birthDept" class="input-premium">
+                                    <option value="">Departamento</option>
+                                    <option value="La Paz">La Paz</option>
+                                    <option value="Oruro">Oruro</option>
+                                    <option value="Potosí">Potosí</option>
+                                    <option value="Cochabamba">Cochabamba</option>
+                                    <option value="Chuquisaca">Chuquisaca</option>
+                                    <option value="Tarija">Tarija</option>
+                                    <option value="Santa Cruz">Santa Cruz</option>
+                                    <option value="Beni">Beni</option>
+                                    <option value="Pando">Pando</option>
+                                </select>
+                                <input type="text" id="birthProv" class="input-premium" placeholder="Provincia">
+                                <input type="text" id="birthMuni" class="input-premium" placeholder="Municipio">
+                                <input type="text" id="birthLoc" class="input-premium" placeholder="Localidad">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 2: UBICACIÓN -->
+                <div class="step-content section-container hidden" id="step-2">
+                    <span class="section-title">
+                        <i class="fas fa-map-marker-alt"></i> 
+                        Paso 2: Dirección y Ubicación
+                    </span>
+                    <div class="grid-layout space-y-4">
+                        <div class="space-y-4">
+                            <span class="label-premium">Ubicación Actual</span>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <select id="addrDept" class="input-premium">
+                                    <option value="">Departamento</option>
+                                    <option value="La Paz">La Paz</option>
+                                    <option value="Oruro">Oruro</option>
+                                    <option value="Potosí">Potosí</option>
+                                    <option value="Cochabamba">Cochabamba</option>
+                                    <option value="Chuquisaca">Chuquisaca</option>
+                                    <option value="Tarija">Tarija</option>
+                                    <option value="Santa Cruz">Santa Cruz</option>
+                                    <option value="Beni">Beni</option>
+                                    <option value="Pando">Pando</option>
+                                </select>
+                                <input type="text" id="addrProv" class="input-premium" placeholder="Provincia">
+                                <input type="text" id="addrMuni" class="input-premium" placeholder="Municipio">
+                                <input type="text" id="addrLoc" class="input-premium" placeholder="Localidad/Ciudad">
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="mb-1">
+                                <label class="label-premium">Zona / Barrio</label>
+                                <input type="text" id="addrZona" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Avenida / Calle</label>
+                                <input type="text" id="addrCalle" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Número de Vivienda</label>
+                                <input type="text" id="addrNum" class="input-premium">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Teléfono Fijo / Celular Domicilio</label>
+                                <input type="text" id="addrPhone" class="input-premium">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 3: CANALES DE COMUNICACIÓN Y REDES -->
+                <div class="step-content section-container hidden" id="step-3">
+                    <span class="section-title">
+                        <i class="fas fa-share-alt"></i> 
+                        Paso 3: Canales de Comunicación y Redes
+                    </span>
+                    <div class="grid-layout">
+                        <div class="space-y-4">
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fab fa-whatsapp"></i> WhatsApp</label>
+                                <input type="tel" class="input-premium" placeholder="+591 71493845">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fas fa-phone"></i> Teléfono Fijo</label>
+                                <input type="tel" class="input-premium" placeholder="+591 74532956">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                                <input type="email" class="input-premium" placeholder="maestro@lc-academy.com">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fab fa-instagram"></i> Instagram</label>
+                                <input type="text" class="input-premium" placeholder="@usuario_profesor">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fab fa-tiktok"></i> TikTok</label>
+                                <input type="text" class="input-premium" placeholder="@usuario_tiktok">
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">
+                                Contactos de Emergencia
+                            </span>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fas fa-life-ring"></i> ¿A quién llamar en caso de emergencia?</label>
+                                <input type="text" class="input-premium" placeholder="Escriba un nombre">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fab fa-whatsapp"></i> WhatsApp de Emergencia</label>    
+                                <input type="tel" class="input-premium" placeholder="+591 71493845">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fas fa-phone"></i> Teléfono Fijo de Emergencia</label>
+                                <input type="tel" class="input-premium" placeholder="+591 74532956">
+                            </div>
+                            <div class="mb-4">
+                                <label class="label-premium"><i class="fas fa-map-marker-alt"></i> Ubicación del Contacto de Emergencia</label>
+                                <input type="text" class="input-premium" placeholder="Escriba una dirección">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 4: FORMACIÓN ACADÉMICA Y ESPECIALIDAD -->
+                <div class="step-content section-container hidden" id="step-4">
+                    <span class="section-title">
+                        <i class="fas fa-graduation-cap"></i> 
+                        Paso 4: Formación Académica y Áreas de Especialización
+                    </span>
+                    <div class="grid-layout space-y-4">
+                        <div class="space-y-4">
+                            <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">
+                                DOMINIO Y ESPECIALIDAD ACADÉMICA
+                            </span>
+                            <div class="mb-1">
+                                <label class="label-premium">Materias de Dominio</label>
+                                <input type="text" id="materiaDom" class="input-premium" placeholder="Ingresa una o más materias">
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Área y Cursos de Especialización</label>
+                                <div style="display: flex; flex-direction: column; gap: 20px;">
+                                    <select id="area-Cap" class="input-premium" style="flex: 1;">
+                                        <option value="">Área de Especialidad</option>
+                                        <option value="secondary">Secundaria</option>
+                                        <option value="primary">Primaria</option>
+                                        <option value="kinder">Kinder</option>
+                                    </select>
+                                    
+                                    <select id="materiaAreaPrimary" class="input-premium hidden" style="flex: 1">
+                                        <option value="">Selecciona la Materia</option>
+                                        <option value="gral">Materias Generales</option>
+                                        <option value="tecTeg">Técnica Tecnología</option>
+                                        <option value="english">Inglés</option>
+                                        <option value="artPlas">Artes Plásticas</option>
+                                        <option value="deutsch">Alemán</option>
+                                        <option value="edMusc">Educación Musical</option>
+                                        <option value="edFis">Educación Física</option>
+                                        <option value="valRel">Religión</option>
+                                    </select>
+                                    
+                                    <select id="materiaAreaSecundary" class="input-premium hidden" style="flex: 1">
+                                        <option value="">Selecciona la Materia</option>
+                                        <option value="math">Matemáticas</option>
+                                        <option value="lenguaje">Lenguaje</option>
+                                        <option value="deutsch">Alemán</option> 
+                                        <option value="bth">BTH</option>
+                                        <option value="biolog">Biología</option> 
+                                        <option value="artPlas">Artes Plásticas</option>
+                                        <option value="cienceS">Ciencias Sociales</option> 
+                                        <option value="edMusc">Educación Musical</option>
+                                        <option value="quimic">Química</option> 
+                                        <option value="edFis">Educación Física</option>
+                                        <option value="fisic">Física</option> 
+                                        <option value="valRel">Religión</option>
+                                        <option value="english">Inglés</option> 
+                                    </select>
+                                    
+                                    <select id="materiaKinder" class="input-premium hidden" style="flex: 1;">
+                                        <option value="">Selecciona la Materia</option>
+                                        <option value="maestroTit">Maestro Titular</option>    
+                                        <option value="asist">Asistente</option>    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Institución de Egreso</label>
+                                <input type="text" id="egresoInstitution" class="input-premium" placeholder="Institución de Egreso" required>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="mb-1">
+                                <label class="label-premium">Fecha de Egreso</label>
+                                <input type="date" id="dateEgress" class="input-premium" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Años de Experiencia</label>
+                                <input type="number" id="experienceYear" class="input-premium" placeholder="Años de Experiencia" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">¿Habla algún idioma originario?</label>
+                                <select id="lenguajeOrig" class="input-premium">
+                                    <option value="no">No</option>
+                                    <option value="yes">Sí</option>
+                                </select>
+                            </div>
+                            <div class="mb-1">
+                                <select id="nationOrig" class="input-premium hidden">
+                                    <option value="Ninguno">Ninguno</option>
+                                    <option value="Ayoreo">Ayoreo</option>
+                                    <option value="Araona">Araona</option>
+                                    <option value="Baure">Baure</option>
+                                    <option value="Canichana">Canichana</option>
+                                    <option value="Cavineño">Cavineño</option>
+                                    <option value="Cayubaba">Cayubaba</option>
+                                    <option value="Chácobo">Chácobo</option>
+                                    <option value="Chimán">Chimán</option>
+                                    <option value="Ese Ejja">Ese Ejja</option>
+                                    <option value="Guarayo">Guarayo</option>
+                                    <option value="Itonama">Itonama</option>
+                                    <option value="Leco">Leco</option>
+                                    <option value="Maropa">Maropa</option>
+                                    <option value="Mosetén">Mosetén</option>
+                                    <option value="Tacana">Tacana</option>
+                                    <option value="Aymara">Aymara</option>
+                                    <option value="Quechua">Quechua</option>
+                                    <option value="Guaraní">Guaraní</option>
+                                    <option value="Afro">Afroboliviano</option>
+                                </select>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">¿Habla algun idioma extrangero?</label>
+                                <input type="text" id="lenguajeExtr" class="input-premium" placeholder="Idioma Extrangero" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- PASO 5: CREDENCIALES Y ACCESO -->
+                <div class="step-content section-container hidden" id="step-5">
+                    <span class="section-title">
+                        <i class="fas fa-key"></i> Paso 5: Credenciales de Acceso y Sistema
+                    </span>
+                    <div class="grid-layout space-y-4">
+                        <div class="space-y-4">
+                            <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">SEGURIDAD Y ACCESO</span>
+                            <div class="mb-1">
+                                <label class="label-premium">Correo Electrónico Institucional</label>
+                                <input type="email" id="userEmailTeacher" class="input-premium" placeholder="correo@docente.com" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Contraseña Generada</label>
+                                <div class="password-wrapper">
+                                    <input type="text" id="userGeneratedPass" class="input-premium" readonly>
+                                    <span class="toggle-password" onclick="togglePass('userGeneratedPass', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <button type="button" id="gen-pass-btn" class="btn-premium" style="margin-top: 10px; padding: 10px; font-size: 12px;">GENERAR CONTRASEÑA SEGURA</button>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">ESTADO DE REGISTRO</span>
+                            <div style="padding: 20px; background: rgba(212, 175, 55, 0.05); border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <p style="font-family: 'Quattrocento', sans-serif; font-size: 14px; color: var(--gris-niebla); margin: 0;">
+                                    Asegúrese de revisar que todos los datos obligatorios del RDA, cédula de identidad y especialidad estén completos antes de emitir el registro institucional docente.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
+                <button type="button" id="prev-step-btn" class="btn-premium" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--oro-aries); flex: 1;" disabled>
+                    ANTERIOR
+                </button>
+                <button type="button" id="next-step-btn" class="btn-premium" style="flex: 1;">
+                    SIGUIENTE
+                </button>
+            </div>
+            <div id="final-actions" class="hidden" style="margin-top: 30px; text-align: center;">
+                <button type="button" id="reg-btn" class="btn-premium" style="padding: 20px; font-size: 18px; max-width: 500px;">
+                    REGISTRAR DOCENTE Y EMITIR CREDENCIALES
+                </button>
+            </div>
+    
+            <div style="margin-top: 20px; text-align: center;">
+                <button type="button" id="back-btn" class="btn-premium" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--oro-aries); width: auto; padding: 10px 30px;">
+                    ← VOLVER A SELECCIONAR ROL
+                </button>
+            </div>
+        </div>
+    </form>
+    <script src="teacher.js"></script>
+</body>
+</html>
