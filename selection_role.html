@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Portal | LC Academy</title>
+    <link rel="icon" href="logo.png">
+    
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <!-- Estilos de la aplicación -->
+    <link rel="stylesheet" href="selection.css">
+</head>
+<body>
+
+    <div class="glass-card fade-in" id="admin-panel">
+        <!-- Encabezado con marca y botón de cierre de sesión -->
+        <header class="header-flex">
+            <div class="brand-group">
+                <img src="logo.png" alt="LC Academy Logo">
+                <div class="divider-line"></div>
+                <div class="brand-text">
+                    <h1>Selection Portal</h1>
+                    <p>Gestión de Registro e Inscripción</p>
+                </div>
+            </div>
+            <button id="logout-btn" class="logout-btn" type="button">Cerrar Sesión</button>
+        </header>
+
+        <!-- Selector de Roles -->
+        <div id="role-selection-step" class="fade-in">
+            <div class="text-center">
+                <h2>Por favor, seleccione el tipo de usuario a registrar</h2>
+            </div>
+
+            <div class="role-selector-container">
+                <div class="role-option" onclick="navigateToRole('estudiantes.html')">
+                    <span><i class="fas fa-user-graduate"></i></span>
+                    Estudiantes
+                </div>
+
+                <div class="role-option" onclick="navigateToRole('teacher.html')">
+                    <span><i class="fas fa-chalkboard-teacher"></i></span>
+                    Maestros
+                </div>
+            </div>
+
+            <section class="directory" aria-labelledby="directory-title">
+                <div class="directory-heading">
+                    <div>
+                        <h2 id="directory-title">Directorio institucional</h2>
+                        <p>Busca y consulta registros actualizados en tiempo real.</p>
+                    </div>
+                </div>
+
+                <label class="directory-search" for="directory-query">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input id="directory-query" type="search" autocomplete="off"
+                        placeholder="Buscar por nombre, C.I., RUDE o rol"
+                        aria-describedby="directory-status">
+                </label>
+
+                <p id="directory-status" class="directory-status" role="status" aria-live="polite">
+                    Conectando con el directorio…
+                </p>
+
+                <div class="directory-layout">
+                    <div id="directory-results" class="directory-results" aria-label="Resultados de búsqueda"></div>
+                    <div id="identity-card" class="identity-card" aria-live="polite">
+                        <div class="directory-empty">Selecciona un registro para ver su tarjeta de identidad.</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Filtro SVG para efecto de onda marina (opcional/interactivo) -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="onda-marina">
+                <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="2" result="noise">
+                    <animate attributeName="baseFrequency" dur="10s" values="0.01 0.05; 0.03 0.08; 0.01 0.05" repeatCount="indefinite" />
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <script>
+        function navigateToRole(url) {
+            window.location.href = url;
+        }
+
+    </script>
+    <script type="module" src="selection-role.js"></script>
+</body>
+</html>

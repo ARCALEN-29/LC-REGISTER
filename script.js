@@ -1,23 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-// Configuración de Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyDjzmlKtVLNes-gQT4OpU7cvKcu8Cce_Sk",
-    authDomain: "lc-academy-890df.firebaseapp.com",
-    projectId: "lc-academy-890df",
-    storageBucket: "lc-academy-890df.firebasestorage.app",
-    messagingSenderId: "186139500601",
-    appId: "1:186139500601:web:79004b1edcc767ac6bade8"
-};
-
-// 1. Inicialización de los servicios de Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { auth, db } from "./firebase-portal.js";
 
 // Referencias a elementos del DOM
 const loginBtn = document.getElementById('login-btn');
+const loginForm = document.getElementById('admin-login-form');
+const loginMessage = document.getElementById('login-message');
 const logoutBtn = document.getElementById('logout-btn');
 const regBtn = document.getElementById('reg-btn');
 const backBtn = document.getElementById('back-btn');
@@ -30,6 +18,18 @@ const modalIcon = document.getElementById('modal-icon');
 const modalTitle = document.getElementById('modal-title');
 const modalText = document.getElementById('modal-text');
 const modalCloseBtn = document.getElementById('modal-close-btn');
+
+const firebaseConfig = {
+    apiKey: 'AIzaSyDjzmlKtVLNes-gQT4OpU7cvKcu8Cce_Sk',
+    authDomain: 'lc-academy-890df.firebaseapp.com',
+    projectId: 'lc-academy-890df',
+    storageBucket: 'lc-academy-890df.firebasestorage.app',
+    messagingSenderId: '186139500601',
+    appId: '1:186139500601:web:79004b1edcc767ac6bade8'
+};
+
+
+
 
 // Funciones Auxiliares seguras
 const getVal = (id) => document.getElementById(id)?.value?.trim() || "";
@@ -226,30 +226,61 @@ backBtn?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-loginBtn?.addEventListener('click', async () => {
+loginForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
     const email = getVal('admin-email');
     const pass = getVal('admin-pass');
-    if (!email || !pass) return alert("Por favor ingresa tus credenciales");
-    
-    loginBtn.innerText = "VALIDANDO...";
+    if (!email || !pass) {
+        loginMessage.textContent = 'Ingresa tu correo y contraseña para continuar.';
+        return;
+    }
+
+    loginMessage.textContent = '';
+    loginBtn.textContent = 'VALIDANDO…';
     loginBtn.disabled = true;
-    
+
+    let authenticatedUid = null;
     try {
-        // 1. Configurar la persistencia para que recuerde el dispositivo
         await setPersistence(auth, browserLocalPersistence);
+        const credential = await signInWithEmailAndPassword(auth, email, pass);
+        authenticatedUid = credential.user.uid;
+        const adminDocument = await getDoc(doc(db, 'Users', authenticatedUid));
+        if (!adminDocument.exists() || adminDocument.data().role !== 'admin') {
+            throw new Error('La contraseña es correcta, pero esta cuenta no tiene el rol de administrador en Firebase.');
+        }
 
-        // 2. Iniciar sesión normalmente
-        await signInWithEmailAndPassword(auth, email, pass);
+        if (window.PasswordCredential && navigator.credentials?.store) {
+            try {
+                await navigator.credentials.store(new window.PasswordCredential(loginForm));
+            } catch (credentialError) {
+                console.info('El navegador no guardó la credencial. Puedes usar su autocompletado habitual.', credentialError);
+            }
+        }
 
-        document.getElementById('login-section')?.classList.add('hidden');
-        document.getElementById('admin-panel')?.classList.remove('hidden');
-    } catch (e) {
-        alert("Error de acceso: " + e.message);
+        window.location.href = 'selection_role.html';
+    } catch (error) {
+        if (authenticatedUid && auth.currentUser?.uid === authenticatedUid) {
+            try {
+                await signOut(auth);
+            } catch (signOutError) {
+                console.error('No se pudo cerrar la sesión de una cuenta sin acceso administrativo.', signOutError);
+            }
+        }
+        console.error('Falló el inicio de sesión administrativo.', error);
+        const messages = {
+            'auth/invalid-credential': 'Correo o contraseña incorrectos.',
+            'auth/user-not-found': 'No existe una cuenta con ese correo.',
+            'auth/wrong-password': 'Correo o contraseña incorrectos.',
+            'auth/too-many-requests': 'Se limitaron temporalmente los intentos. Espera e inténtalo nuevamente.',
+            'auth/network-request-failed': 'No se pudo conectar con Firebase. Revisa tu conexión.'
+        };
+        loginMessage.textContent = messages[error.code] || error.message || 'No se pudo iniciar sesión.';
     } finally {
-        loginBtn.innerText = "INGRESAR AL SISTEMA";
+        loginBtn.textContent = "INGRESAR AL SISTEMA";
         loginBtn.disabled = false;
     }
 });
+
 logoutBtn?.addEventListener('click', async () => {
     await signOut(auth);
     location.reload();

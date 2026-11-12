@@ -1,122 +1,156 @@
-const prevStepBtn = document.getElementById('prev-step-btn'); 
-const nextStepBtn = document.getElementById('next-step-btn'); 
-const regBtn = document.getElementById('reg-btn'); 
-const backBtn = document.getElementById('back-btn'); 
-const areaCap = document.getElementById('area-Cap'); 
-const matPrim = document.getElementById('materiaAreaPrimary'); 
-const matSec = document.getElementById('materiaAreaSecundary'); 
-const matKind = document.getElementById('materiaKinder'); 
-const lenguaje = document.getElementById('lenguajeOrig');
-const nationOrig = document.getElementById('nationOrig');
+import { createRegisteredUser } from './firebase-portal.js';
+import { initializePortal, showPortalAlert, translateNATO } from './shared-portal.js';
 
-let currentStep = 1; 
-const totalSteps = 5; 
+const teacherForm = document.getElementById('user-form');
 
-if (nextStepBtn) {
-    nextStepBtn.addEventListener('click', () => { 
-        if (currentStep < totalSteps) { 
-            currentStep++; 
-            updateStepUI(); 
-        } 
-    }); 
+function fieldValue(id) {
+    return teacherForm.elements.namedItem(id)?.value?.trim() || '';
 }
 
-if (prevStepBtn) {
-    prevStepBtn.addEventListener('click', () => { 
-        if (currentStep > 1) { 
-            currentStep--; 
-            updateStepUI(); 
-        } 
-    });
+function collectValues(ids) {
+    return Object.fromEntries(ids.map((id) => [id, fieldValue(id)]));
 }
 
-function updateStepUI() { 
-    for (let i = 1; i <= totalSteps; i++) { 
-        const indicator = document.getElementById(`step-${i}-indicator`); 
-        if (indicator) { 
-            indicator.classList.remove('active', 'completed'); 
-            if (i < currentStep) indicator.classList.add('completed'); 
-            if (i === currentStep) indicator.classList.add('active'); 
-        } 
-    } 
+async function registerTeacher() {
+    const password = fieldValue('userGeneratedPass');
+    const email = fieldValue('userEmailTeacher');
+    const selectedArea = teacherForm.elements.namedItem('area-Cap')?.selectedOptions[0]?.textContent.trim() || '';
+    const selectedSubject = ['materiaAreaPrimary', 'materiaAreaSecundary', 'materiaKinder']
+        .map((id) => teacherForm.elements.namedItem(id))
+        .find((select) => select && !select.classList.contains('hidden') && select.value);
+    const identity = {
+        rda: fieldValue('rdaCode'),
+        ci: fieldValue('teacherCI'),
+        ciComplemento: fieldValue('teacherCIComp'),
+        ciExpedido: fieldValue('teacherCIExp'),
+        nombres: fieldValue('teacherNames'),
+        primerApellido: fieldValue('teacherFirstLast'),
+        segundoApellido: fieldValue('teacherSecondLast'),
+        fechaNacimiento: fieldValue('teacherBirth'),
+        sexo: fieldValue('teacherSex'),
+        certificadoNacimiento: collectValues(['certOficialia', 'certLibro', 'certPartida', 'certFolio']),
+        lugarNacimiento: collectValues(['birthDept', 'birthProv', 'birthMuni', 'birthLoc'])
+    };
+    const location = collectValues([
+        'addrDept', 'addrProv', 'addrMuni', 'addrLoc',
+        'addrZona', 'addrCalle', 'addrNum', 'addrPhone'
+    ]);
+    const communications = collectValues([
+        'teacherWhatsapp', 'teacherLandline', 'teacherContactEmail',
+        'teacherInstagram', 'teacherTiktok', 'emergNombre',
+        'emergWhatsapp', 'emergPhone', 'emergDireccion'
+    ]);
+    const academic = {
+        materiasDominio: fieldValue('materiaDom'),
+        areaEspecialidad: selectedArea,
+        materiaEspecialidad: selectedSubject?.selectedOptions[0]?.textContent.trim() || '',
+        institucionEgreso: fieldValue('egresoInstitution'),
+        fechaEgreso: fieldValue('dateEgress'),
+        aniosExperiencia: fieldValue('experienceYear'),
+        hablaIdiomaOriginario: fieldValue('lenguajeOrig'),
+        idiomaOriginario: fieldValue('nationOrig'),
+        idiomaExtranjero: fieldValue('lenguajeExtr')
+    };
+    const credentials = {
+        correo: email,
+        passwordStoredInAuth: true,
+        natoStoredInFirestore: false
+    };
+    const printableData = {
+        rol: 'Docente',
+        codigo: identity.rda,
+        nombreCompleto: [
+            identity.nombres,
+            identity.primerApellido,
+            identity.segundoApellido
+        ].filter(Boolean).join(' '),
+        ci: [identity.ci, identity.ciComplemento, identity.ciExpedido].filter(Boolean).join(' '),
+        nacimiento: identity.fechaNacimiento,
+        telefono: location.addrPhone,
+        direccion: Object.values(location).filter(Boolean).join(', '),
+        especialidad: [
+            academic.areaEspecialidad,
+            academic.materiaEspecialidad,
+            academic.materiasDominio
+        ].filter(Boolean).join(' — '),
+        enlaceNombre: communications.emergNombre,
+        enlaceRelacion: 'Contacto de emergencia',
+        enlaceTel: communications.emergWhatsapp,
+        enlaceDir: communications.emergDireccion,
+        correo: email,
+        password,
+        nato: translateNATO(password),
+        identidad: identity,
+        ubicacion: location,
+        comunicacion_redes: communications,
+        formacion_academica: academic
+    };
 
-    document.querySelectorAll('.step-content').forEach((step, idx) => { 
-        step.classList.toggle('hidden', idx + 1 !== currentStep); 
-        step.classList.toggle('visible', idx + 1 === currentStep); 
-    }); 
-
-    if (prevStepBtn) { 
-        prevStepBtn.disabled = (currentStep === 1); 
-    } 
-
-    const finalActions = document.getElementById('final-actions'); 
-    if (currentStep === totalSteps) { 
-        nextStepBtn?.classList.add('hidden'); 
-        finalActions?.classList.remove('hidden'); 
-    } else { 
-        nextStepBtn?.classList.remove('hidden'); 
-        finalActions?.classList.add('hidden'); 
-    } 
+    try {
+        await createRegisteredUser({
+            collectionName: 'teachers',
+            email,
+            password,
+            rol: 'Docente',
+            sections: {
+                identidad: identity,
+                ubicacion: location,
+                comunicacion_redes: communications,
+                formacion_academica: academic,
+                credenciales: credentials
+            },
+            directoryData: {
+                nombre: printableData.nombreCompleto,
+                ci: printableData.ci,
+                rude: '',
+                rda: identity.rda,
+                curso: academic.materiaEspecialidad || academic.areaEspecialidad
+            },
+            printableData
+        });
+        return true;
+    } catch (error) {
+        showPortalAlert(error instanceof Error ? error.message : 'No se pudo completar el registro docente.');
+        return false;
+    }
 }
 
 function changeMaterias() {
-    if (!areaCap || !matPrim || !matSec || !matKind) return;
-    const seleccion = areaCap.value;
-
-    matPrim.classList.add('hidden');
-    matSec.classList.add('hidden');
-    matKind.classList.add('hidden');
-
-    matPrim.value = "";
-    matSec.value = "";
-    matKind.value = "";
-
-    if (seleccion === 'primary') {
-        matPrim.classList.remove('hidden');
-    } else if (seleccion === 'secondary') {
-        matSec.classList.remove('hidden');
-    } else if (seleccion === 'kinder') {
-        matKind.classList.remove('hidden');
+    const area = document.getElementById('area-Cap');
+    const options = [
+        ['primary', 'materiaAreaPrimary'],
+        ['secondary', 'materiaAreaSecundary'],
+        ['kinder', 'materiaKinder']
+    ];
+    for (const [value, id] of options) {
+        const select = document.getElementById(id);
+        if (!select) continue;
+        const isSelected = area?.value === value;
+        select.classList.toggle('hidden', !isSelected);
+        if (!isSelected) select.value = '';
     }
 }
 
 function optionLenguaje() {
-    if (!lenguaje || !nationOrig) return;
-    if (lenguaje.value === 'yes') {
-        nationOrig.classList.remove('hidden');
-    } else {
-        nationOrig.classList.add('hidden');
-        nationOrig.value = "Ninguno";
-    }
+    const language = document.getElementById('lenguajeOrig');
+    const nation = document.getElementById('nationOrig');
+    if (!language || !nation) return;
+    const isVisible = language.value === 'yes';
+    nation.classList.toggle('hidden', !isVisible);
+    if (isVisible && nation.value === 'Ninguno') nation.value = '';
+    if (!isVisible) nation.value = 'Ninguno';
 }
 
-function updateProvinces(deptId, provId) {
-    // Función de utilidad para actualizar provincias si se requiere
+function updateProvinces(departmentId, provinceId) {
+    const department = document.getElementById(departmentId);
+    const province = document.getElementById(provinceId);
+    if (!department || !province) return;
+    province.dataset.department = department.value;
 }
 
-function generatePassword () {
-    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXZ"
-    A = α 
-    B = β
-}
-
-function togglePass(inputId, iconEl) {
-    const input = document.getElementById(inputId);
-    const icon = iconEl.querySelector('i');
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
-}
-
-if (areaCap) areaCap.addEventListener('change', changeMaterias);
-if (lenguaje) lenguaje.addEventListener('change', optionLenguaje);
-
-updateStepUI();
+initializePortal({ onRegister: registerTeacher });
+document.getElementById('area-Cap')?.addEventListener('change', changeMaterias);
+document.getElementById('lenguajeOrig')?.addEventListener('change', optionLenguaje);
+window.updateProvinces = updateProvinces;
 changeMaterias();
 optionLenguaje();

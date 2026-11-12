@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="shared-portal.css">
+    <link rel="stylesheet" href="teacher.css">
 </head>
 <body>
     <form id="user-form" class="fade-in">
@@ -183,23 +184,23 @@
                         <div class="space-y-4">
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fab fa-whatsapp"></i> WhatsApp</label>
-                                <input type="tel" class="input-premium" placeholder="+591 71493845">
+                                <input type="tel" id="teacherWhatsapp" class="input-premium" placeholder="+591 71493845">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fas fa-phone"></i> Teléfono Fijo</label>
-                                <input type="tel" class="input-premium" placeholder="+591 74532956">
+                                <input type="tel" id="teacherLandline" class="input-premium" placeholder="+591 74532956">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fas fa-envelope"></i> Correo Electrónico</label>
-                                <input type="email" class="input-premium" placeholder="maestro@lc-academy.com">
+                                <input type="email" id="teacherContactEmail" class="input-premium" placeholder="maestro@lc-academy.com">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fab fa-instagram"></i> Instagram</label>
-                                <input type="text" class="input-premium" placeholder="@usuario_profesor">
+                                <input type="text" id="teacherInstagram" class="input-premium" placeholder="@usuario_profesor">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fab fa-tiktok"></i> TikTok</label>
-                                <input type="text" class="input-premium" placeholder="@usuario_tiktok">
+                                <input type="text" id="teacherTiktok" class="input-premium" placeholder="@usuario_tiktok">
                             </div>
                         </div>
                         <div class="space-y-4">
@@ -208,19 +209,19 @@
                             </span>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fas fa-life-ring"></i> ¿A quién llamar en caso de emergencia?</label>
-                                <input type="text" class="input-premium" placeholder="Escriba un nombre">
+                                <input type="text" id="emergNombre" class="input-premium" placeholder="Escriba un nombre">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fab fa-whatsapp"></i> WhatsApp de Emergencia</label>    
-                                <input type="tel" class="input-premium" placeholder="+591 71493845">
+                                <input type="tel" id="emergWhatsapp" class="input-premium" placeholder="+591 71493845">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fas fa-phone"></i> Teléfono Fijo de Emergencia</label>
-                                <input type="tel" class="input-premium" placeholder="+591 74532956">
+                                <input type="tel" id="emergPhone" class="input-premium" placeholder="+591 74532956">
                             </div>
                             <div class="mb-4">
                                 <label class="label-premium"><i class="fas fa-map-marker-alt"></i> Ubicación del Contacto de Emergencia</label>
-                                <input type="text" class="input-premium" placeholder="Escriba una dirección">
+                                <input type="text" id="emergDireccion" class="input-premium" placeholder="Escriba una dirección">
                             </div>
                         </div>
                     </div>
@@ -310,6 +311,7 @@
                             </div>
                             <div class="mb-1">
                                 <select id="nationOrig" class="input-premium hidden">
+                                    <option value="">Selecciona un idioma</option>
                                     <option value="Ninguno">Ninguno</option>
                                     <option value="Ayoreo">Ayoreo</option>
                                     <option value="Araona">Araona</option>
@@ -354,13 +356,51 @@
                             </div>
                             <div class="mb-1">
                                 <label class="label-premium">Contraseña Generada</label>
+                        
                                 <div class="password-wrapper">
-                                    <input type="text" id="userGeneratedPass" class="input-premium" readonly>
-                                    <span class="toggle-password" onclick="togglePass('userGeneratedPass', this)">
+                                    <input type="password"
+                                        id="userGeneratedPass"
+                                        class="input-premium"
+                                        readonly>
+                        
+                                    <span class="toggle-password"
+                                        onclick="togglePass('userGeneratedPass', this)">
                                         <i class="fas fa-eye"></i>
                                     </span>
                                 </div>
-                                <button type="button" id="gen-pass-btn" class="btn-premium" style="margin-top: 10px; padding: 10px; font-size: 12px;">GENERAR CONTRASEÑA SEGURA</button>
+                        
+                                <button type="button"
+                                    id="gen-pass-btn"
+                                    class="btn-premium"
+                                    style="margin-top: 10px; padding: 10px;
+                                    font-size: 12px;">
+                                    GENERAR CONTRASEÑA SEGURA (16 CARACTERES)
+                                </button>
+                        
+                                <!-- TRADUCCIÓN OTAN -->
+                                <div id="nato-result"
+                                    style="display:none; margin-top:15px;">
+                        
+                                    <label class="label-premium">
+                                        TRADUCCIÓN
+                                    </label>
+                        
+                                    <div id="nato-translation"
+                                        class="input-premium"
+                                        style="min-height:80px; padding:12px;
+                                        font-size:12px; line-height:1.8;
+                                        word-break:break-word;">
+                                    </div>
+                        
+                                    <button type="button"
+                                        onclick="copyNatoTranslation()"
+                                        class="btn-premium"
+                                        style="margin-top:8px; padding:9px;
+                                        font-size:11px;">
+                                        COPIAR TRADUCCIÓN
+                                    </button>
+                        
+                                </div>
                             </div>
                         </div>
                         <div class="space-y-4">
@@ -391,12 +431,13 @@
             </div>
     
             <div style="margin-top: 20px; text-align: center;">
-                <button type="button" id="back-btn" class="btn-premium" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--oro-aries); width: auto; padding: 10px 30px;">
+                <button type="button" id="back-btn" 
+                        class="btn-premium" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--oro-aries); width: auto; padding: 10px 30px;">
                     ← VOLVER A SELECCIONAR ROL
                 </button>
             </div>
         </div>
     </form>
-    <script src="teacher.js"></script>
+    <script type="module" src="teacher.js"></script>
 </body>
 </html>

@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="estilo.css">
+    <title>Student Portal | LC Academy</title>
+    <link rel="icon" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="shared-portal.css">
+    <link rel="stylesheet" href="estudiante.css">
 </head>
 <body>
     
-<form id="user-form" class="hidden fade-in">
-    <input type="hidden" id="userRole">
+<form id="user-form" class="fade-in">
 
-    <div id="student-stepper-container" class="hidden">
+    <div id="student-stepper-container">
         <div class="stepper-container">
             <div class="step-item active" id="step-1-indicator">
                 <div class="step-circle">1</div>
@@ -37,7 +42,7 @@
 
         <div id="student-steps">
             <!-- PASO 1: IDENTIDAD -->
-            <div class="step-content section-container visible" id="step-1">
+            <div class="step-content section-container visible" id="step-1" data-step="1">
                 <span class="section-title">
                     <i class="fas fa-user"></i> 
                     Paso 1: Datos de Identificación
@@ -46,7 +51,7 @@
                     <div class="space-y-4">
                         <div class="mb-1">
                             <label class="label-premium">Código RUDE</label>
-                            <input type="text" id="rudeCode" class="input-premium" placeholder="Opcional o autogenerado">
+                            <input type="text" id="rudeCode" class="input-premium" placeholder="Escribelo sin Errores">
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Nacionalidad</label>
@@ -82,15 +87,15 @@
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Nombres</label>
-                            <input type="text" id="studentNames" class="input-premium" required>
+                            <input type="text" id="studentNames" class="input-premium" placeholder="Nombres Completos" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Primer Apellido</label>
-                            <input type="text" id="studentFirstLast" class="input-premium" required>
+                            <input type="text" id="studentFirstLast" class="input-premium" placeholder="Primer Apellido" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Segundo Apellido</label>
-                            <input type="text" id="studentSecondLast" class="input-premium" required>
+                            <input type="text" id="studentSecondLast" class="input-premium" placeholder="Segundo Apellido" required>
                         </div>
                     </div>
                     <div class="space-y-4">
@@ -164,19 +169,19 @@
                     <div class="space-y-4">
                         <div class="mb-1">
                             <label class="label-premium">Zona / Barrio</label>
-                            <input type="text" id="addrZona" class="input-premium">
+                            <input type="text" id="addrZona" class="input-premium" placeholder="Zona / Barrio" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Avenida / Calle</label>
-                            <input type="text" id="addrCalle" class="input-premium">
+                            <input type="text" id="addrCalle" class="input-premium" placeholder="Avenida / Calle" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Número de Vivienda</label>
-                            <input type="text" id="addrNum" class="input-premium">
+                            <input type="text" id="addrNum" class="input-premium" placeholder="Número de Vivienda" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Teléfono Fijo / Celular Domicilio</label>
-                            <input type="text" id="addrPhone" class="input-premium">
+                            <input type="text" id="addrPhone" class="input-premium" placeholder="Teléfono Fijo / Celular Domicilio" required>
                         </div>
                     </div>
                 </div>
@@ -193,15 +198,16 @@
                         <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">IDIOMAS Y PERTENENCIA CULTURAL</span>
                         <div class="mb-1">
                             <label class="label-premium">Idioma que aprendió a hablar en su niñez</label>
-                            <input type="text" id="langChildhood" class="input-premium">
+                            <input type="text" id="langChildhood" class="input-premium" placeholder="Ej. Inglés" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Idioma que habla frecuentemente</label>
-                            <input type="text" id="langFrequent" class="input-premium">
+                            <input type="text" id="langFrequent" class="input-premium" placeholder="Ej. Español" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">¿Pertenece a alguna nación pueblo indígena originario campesino o afroboliviano?</label>
                             <select id="nationOrigin" class="input-premium">
+                                <option value="">Selecciona un idioma</option>
                                 <option value="Ninguno">Ninguno</option>
                                 <option value="Araona">Araona</option>
                                 <option value="Ayoreo">Ayoreo</option>
@@ -251,11 +257,11 @@
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">El año pasado, por problemas de salud, acudió o se atendió en:</label>
-                            <input type="text" id="healthCarePlace" class="input-premium">
+                            <input type="text" id="healthCarePlace" class="input-premium" placeholder="Ej. Prosalud">
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">El año pasado, ¿cuántas veces fue al Centro de Salud?</label>
-                            <input type="number" id="healthCenterVisits" class="input-premium">
+                            <input type="number" id="healthCenterVisits" class="input-premium" placeholder="Ej. 5">
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">¿Tiene Seguro de Salud?</label>
@@ -387,7 +393,7 @@
                             <input type="text" id="transportTime" class="input-premium" placeholder="Ej: 30 min">
                         </div>
 
-                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">ABANDONO ESCOLAR (GESTIÓN ANTERIOR)</label>
+                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px; display: block;">ABANDONO ESCOLAR (GESTIÓN ANTERIOR)</span>
                         <div class="mb-1">
                             <label class="label-premium">¿El estudiante abandonó la Unidad Educativa el año pasado?</label>
                             <select id="didAbandon" class="input-premium" onchange="toggleAbandonReasons()">
@@ -406,51 +412,69 @@
             <!-- PASO 4: TUTOR -->
             <div class="step-content section-container hidden" id="step-4">
                 <span class="section-title">
-                    <i class="fas fa-users"></i> Paso 4: Padre, Madre o Tutor Legal</span>
+                    <i class="fas fa-users"></i> Paso 4: Padre, Madre o Tutor Legal
+                </span>
+                <div class="mb-1" style="margin-bottom: 2rem;">
+                    <label class="label-premium">Vínculo</label>
+                    <select id="tutorRelation" class="input-premium" onchange="toggleTutorSecondary()">
+                        <option value="">SELECCIONAR</option>
+                        <option value="Ambos (Padre y Madre)">Ambos (Padre y Madre)</option>
+                        <option value="Padre">Padre</option>
+                        <option value="Madre">Madre</option>
+                        <option value="Tutor/a Legal">Tutor/a Legal</option>
+                    </select>
+                </div>
                 <div class="grid-layout space-y-4">
                     <div class="space-y-4">
-                        <div class="mb-1">
-                            <label class="label-premium">Vínculo</label>
-                            <select id="tutorRelation" class="input-premium" onchange="toggleTutorSecondary()">
-                                <option value="none">SELECCIONAR</option>
-                                <option value="Ambos (Padre y Madre)">Ambos (Padre y Madre)</option>
-                                <option value="Padre">Padre</option>
-                                <option value="Madre">Madre</option>
-                                <option value="Tutor/a Legal">Tutor/a Legal</option>
-                            </select>
-                        </div>
-                        <div class="mb-1">
-                            <label class="label-premium">C.I. del Tutor 1</label>
-                            <div style="display: flex; gap: 10px;">
-                                <input type="text" id="tutorCI" class="input-premium" placeholder="Número" style="flex: 2;">
-                                <select id="tutorCIExp" class="input-premium" style="flex: 1;">
-                                    <option value="">Exp.</option>
-                                    <option value="TJA">TJA</option>
-                                    <option value="LP">LP</option>
-                                    <option value="CB">CB</option>
-                                    <option value="SC">SC</option>
-                                    <option value="OR">OR</option>
-                                    <option value="PTo">PTo</option>
-                                    <option value="CH">CH</option>
-                                    <option value="BEN">BEN</option>
-                                    <option value="PAD">PAD</option>
-                                </select>
+                        <div id="tutor-primary-block" class="space-y-4" style="border-left: 2px solid var(--oro-aries); padding-left: 15px; margin-bottom: 20px;">
+                            <span id="lbl-tutor1-title" class="label-premium" style="color: var(--oro-aries); font-weight: bold;">Información del Primer Responsable</span>
+                            <div class="mb-1">
+                                <label id="lbl-tutor1-ci" class="label-premium">C.I. del Padre</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="tutor1CI" class="input-premium" placeholder="Número" style="flex: 2;">
+                                    <select id="tutor1CIExp" class="input-premium" style="flex: 1;">
+                                        <option value="">Exp.</option>
+                                        <option value="TJA">TJA</option>
+                                        <option value="LP">LP</option>
+                                        <option value="CB">CB</option>
+                                        <option value="SC">SC</option>
+                                        <option value="OR">OR</option>
+                                        <option value="PTo">PTo</option>
+                                        <option value="CH">CH</option>
+                                        <option value="BEN">BEN</option>
+                                        <option value="PAD">PAD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <label id="lbl-tutor1-name" class="label-premium">Nombres y Apellidos</label>
+                                <input type="text" id="tutor1FullName" class="input-premium" placeholder="Nombres Completos" required>
+                            </div>
+                            <div class="mb-1">
+                                <label id="lbl-tutor1-phone" class="label-premium">Celular</label>
+                                <input type="number" id="tutor1Phone" class="input-premium" placeholder="Ej. 00000000" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Idioma de Mayor Uso</label>
+                                <input type="text" id="tutor1Lang" class="input-premium" placeholder="Ej. Español" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Ocupación u Oficio Principal</label>
+                                <input type="text" id="tutor1Job" class="input-premium" placeholder="Ej. Ingeniero Civil" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Grado de Instrucción Alcanzado</label>
+                                <input type="text" id="tutor1Edu" class="input-premium" placeholder="Ej. Maestría" required>
                             </div>
                         </div>
-                        <div class="mb-1">
-                            <label class="label-premium">Nombres y Apellidos Tutor 1</label>
-                            <input type="text" id="tutorFullName" class="input-premium">
-                        </div>
-                        <div class="mb-1">
-                            <label class="label-premium">Celular Tutor 1</label>
-                            <input type="text" id="tutorPhone" class="input-premium">
-                        </div>
                     </div>
+            
+                    <!-- Columna Derecha: Bloque Secundario (Madre / Tutor 2) y Datos Generales --> 
                     <div class="space-y-4">
                         <div id="tutor-secondary-block" class="hidden space-y-4" style="border-left: 2px solid var(--oro-aries); padding-left: 15px; margin-bottom: 20px;">
-                            <span class="label-premium" style="color: var(--oro-aries); font-weight: bold;">Información Tutor 2</span>
+                            <span id="lbl-tutor2-title" class="label-premium" style="color: var(--oro-aries); font-weight: bold;">Información del Segundo Responsable</span>
                             <div class="mb-1">
-                                <label class="label-premium">C.I. del Tutor 2</label>
+                                <label id="lbl-tutor2-ci" class="label-premium">C.I. de la Madre</label>
                                 <div style="display: flex; gap: 10px;">
                                     <input type="text" id="tutor2CI" class="input-premium" placeholder="Número" style="flex: 2;">
                                     <select id="tutor2CIExp" class="input-premium" style="flex: 1;">
@@ -468,25 +492,25 @@
                                 </div>
                             </div>
                             <div class="mb-1">
-                                <label class="label-premium">Nombres y Apellidos Tutor 2</label>
-                                <input type="text" id="tutor2FullName" class="input-premium">
+                                <label id="lbl-tutor2-name" class="label-premium">Nombres y Apellidos</label>
+                                <input type="text" id="tutor2FullName" class="input-premium" placeholder="Nombres Completos" required>
                             </div>
                             <div class="mb-1">
-                                <label class="label-premium">Celular Tutor 2</label>
-                                <input type="text" id="tutor2Phone" class="input-premium">
+                                <label id="lbl-tutor2-phone" class="label-premium">Celular</label>
+                                <input type="number" id="tutor2Phone" class="input-premium" placeholder="Ej. 00000000" required>
                             </div>
-                        </div>
-                        <div class="mb-1">
-                            <label class="label-premium">Idioma de Mayor Uso</label>
-                            <input type="text" id="tutorLang" class="input-premium">
-                        </div>
-                        <div class="mb-1">
-                            <label class="label-premium">Ocupación u Oficio Principal</label>
-                            <input type="text" id="tutorJob" class="input-premium">
-                        </div>
-                        <div class="mb-1">
-                            <label class="label-premium">Grado de Instrucción Alcanzado</label>
-                            <input type="text" id="tutorEdu" class="input-premium">
+                            <div class="mb-1">
+                                <label class="label-premium">Idioma de Mayor Uso</label>
+                                <input type="text" id="tutor2Lang" class="input-premium" placeholder="Ej. Español" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Ocupación u Oficio Principal</label>
+                                <input type="text" id="tutor2Job" class="input-premium" placeholder="Ej. Ingeniera Informática" required>
+                            </div>
+                            <div class="mb-1">
+                                <label class="label-premium">Grado de Instrucción Alcanzado</label>
+                                <input type="text" id="tutor2Edu" class="input-premium" placeholder="Ej. Licenciada" required>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -501,15 +525,15 @@
                         <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">PROMEDIOS GESTIÓN ANTERIOR</span>
                         <div class="mb-1">
                             <label class="label-premium">Promedio 1er Trimestre</label>
-                            <input type="number" step="0.01" id="gradeT1" class="input-premium" oninput="calculateFinalGrade()">
+                            <input type="number" step="0.01" id="gradeT1" class="input-premium" oninput="calculateFinalGrade()" placeholder="Escribe el primero promedio" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Promedio 2do Trimestre</label>
-                            <input type="number" step="0.01" id="gradeT2" class="input-premium" oninput="calculateFinalGrade()">
+                            <input type="number" step="0.01" id="gradeT2" class="input-premium" oninput="calculateFinalGrade()" placeholder="Escribe el segundo promedio" required>
                         </div>
                         <div class="mb-1">
                             <label class="label-premium">Promedio 3er Trimestre</label>
-                            <input type="number" step="0.01" id="gradeT3" class="input-premium" oninput="calculateFinalGrade()">
+                            <input type="number" step="0.01" id="gradeT3" class="input-premium" oninput="calculateFinalGrade()" placeholder="Escribe el tercer promedio" required>
                         </div>
                         <div class="mb-1" style="margin-top: 15px; padding: 10px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid var(--oro-aries);">
                             <label class="label-premium" style="color: white; font-weight: bold;">PROMEDIO FINAL AUTOMÁTICO</label>
@@ -517,18 +541,71 @@
                         </div>
                     </div>
                     <div class="space-y-4">
-                        <span class="label-premium" style="font-size: 13px; color: var(--oro-aries); border-bottom: 1px solid var(--oro-aries); padding-bottom: 5px; margin-bottom: 15px; display: block;">CREDENCIALES DE ACCESO</span>
+
+                        <span class="label-premium"
+                            style="font-size: 13px; color: var(--oro-aries);
+                            border-bottom: 1px solid var(--oro-aries);
+                            padding-bottom: 5px; margin-bottom: 15px;
+                            display: block;">
+                            CREDENCIALES DE ACCESO
+                        </span>
+                    
                         <div class="mb-1">
                             <label class="label-premium">Correo Electrónico</label>
-                            <input type="email" id="userEmailStudent" class="input-premium" placeholder="correo@estudiante.com" required>
+                            <input type="email"
+                                id="userEmailStudent"
+                                class="input-premium"
+                                placeholder="correo@estudiante.com"
+                                required>
                         </div>
+                    
                         <div class="mb-1">
                             <label class="label-premium">Contraseña Generada</label>
+                    
                             <div class="password-wrapper">
-                                <input type="text" id="userGeneratedPass" class="input-premium" readonly>
-                                <span class="toggle-password" onclick="togglePass('userGeneratedPass', this)">👁️</span>
+                                <input type="password"
+                                    id="userGeneratedPass"
+                                    class="input-premium"
+                                    readonly>
+                    
+                                <span class="toggle-password"
+                                    onclick="togglePass('userGeneratedPass', this)">
+                                    <i class="fas fa-eye"></i>
+                                </span>
                             </div>
-                            <button type="button" id="gen-pass-btn" class="btn-premium" style="margin-top: 10px; padding: 10px; font-size: 12px;">GENERAR CONTRASEÑA SEGURA (16 CARACTERES)</button>
+                    
+                            <button type="button"
+                                id="gen-pass-btn"
+                                class="btn-premium"
+                                style="margin-top: 10px; padding: 10px;
+                                font-size: 12px;">
+                                GENERAR CONTRASEÑA SEGURA (16 CARACTERES)
+                            </button>
+                    
+                            <!-- TRADUCCIÓN OTAN -->
+                            <div id="nato-result"
+                                style="display:none; margin-top:15px;">
+                    
+                                <label class="label-premium">
+                                    TRADUCCIÓN
+                                </label>
+                    
+                                <div id="nato-translation"
+                                    class="input-premium"
+                                    style="min-height:80px; padding:12px;
+                                    font-size:12px; line-height:1.8;
+                                    word-break:break-word;">
+                                </div>
+                    
+                                <button type="button"
+                                    onclick="copyNatoTranslation()"
+                                    class="btn-premium"
+                                    style="margin-top:8px; padding:9px;
+                                    font-size:11px;">
+                                    COPIAR TRADUCCIÓN 
+                                </button>
+                    
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -556,4 +633,5 @@
         </div>
     </div>
 </form>
+<script type="module" src="estudiante.js"></script>
 </body>

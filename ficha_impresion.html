@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Registro y Credenciales | LC Academy</title>
+    <link rel="icon" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ficha_impresion.css">  
+</head>
+<body>
+
+    <div class="acciones-pantalla">
+        <button class="btn" onclick="window.print()">IMPRIMIR FICHA</button>
+        <button class="btn" onclick="window.close()">CERRAR</button>
+    </div>
+
+    <div class="hoja-impresion">
+        <!-- Encabezado -->
+        <div class="header">
+            <div class="header-title">
+                <img src="logo.png" alt="LC Academy" style="width: 100px; height: auto;">
+                <span>
+                    <h1>LC ACADEMY</h1>
+                <p>Comprobante Oficial de Registro Institucional y Credenciales</p>
+                </span>
+            </div>
+            <div class="header-meta">
+                <div><strong>Rol:</strong> <span id="imp-rol">Docente</span></div>
+                <div><strong>Fecha:</strong> <span id="imp-fecha"></span></div>
+                <div><strong>Código / RDA:</strong> <span id="imp-codigo">---</span></div>
+            </div>
+        </div>
+
+        <!-- 1. Datos Personales -->
+        <div class="seccion">
+            <div class="seccion-titulo">1. Datos de Identificación</div>
+            <div class="grid-datos">
+                <div class="dato-item"><span class="dato-label">Nombre Completo:</span> <span id="imp-nombre"></span></div>
+                <div class="dato-item"><span class="dato-label">Cédula de Identidad:</span> <span id="imp-ci"></span></div>
+                <div class="dato-item"><span class="dato-label">Fecha de Nacimiento:</span> <span id="imp-nacimiento"></span></div>
+                <div class="dato-item"><span class="dato-label">Teléfono / WhatsApp:</span> <span id="imp-telefono"></span></div>
+                <div class="dato-item"><span class="dato-label">Dirección:</span> <span id="imp-direccion"></span></div>
+                <div class="dato-item"><span class="dato-label">Especialidad / Área:</span> <span id="imp-especialidad"></span></div>
+            </div>
+        </div>
+
+        <!-- 2. Enlace Familiar / Tutor / Contacto de Emergencia -->
+        <div class="seccion">
+            <div class="seccion-titulo">2. Padre / Tutor Enlazado o Contacto de Referencia</div>
+            <div class="grid-datos">
+                <div class="dato-item"><span class="dato-label">Nombre del Responsable:</span> <span id="imp-enlace-nombre"></span></div>
+                <div class="dato-item"><span class="dato-label">Parentesco / Relación:</span> <span id="imp-enlace-relacion"></span></div>
+                <div class="dato-item"><span class="dato-label">Teléfono / WhatsApp:</span> <span id="imp-enlace-tel"></span></div>
+                <div class="dato-item"><span class="dato-label">Dirección del Contacto:</span> <span id="imp-enlace-dir"></span></div>
+            </div>
+        </div>
+
+        <!-- 3. Credenciales de Acceso y Traducción OTAN -->
+        <div class="seccion">
+            <div class="seccion-titulo">3. Credenciales de Acceso al Sistema</div>
+            <div class="caja-credenciales">
+                <div class="credencial-fila">
+                    <span class="dato-label">Correo Electrónico Institucional:</span> 
+                    <span id="imp-correo"></span>
+                </div>
+                <div class="credencial-fila">
+                    <span class="dato-label">Contraseña Temporal Generada:</span> 
+                    <span class="pass-mono" id="imp-password"></span>
+                </div>
+                <div class="nato-box">
+                    <strong>Deletreo Fonético (Alfabeto OTAN) para verificación:</strong><br>
+                    <span id="imp-nato"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Firmas -->
+        <div class="firmas">
+            <div class="linea-firma">Firma del Titular / Docente</div>
+            <div class="linea-firma">Firma Padre / Tutor (Si aplica)</div>
+            <div class="linea-firma">Sello y Firma Administración</div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Recuperar el objeto guardado desde el formulario
+            const rawData = sessionStorage.getItem('datosFichaImpresion');
+            document.getElementById('imp-fecha').textContent = new Date().toLocaleDateString('es-BO');
+
+            if (rawData) {
+                const datos = JSON.parse(rawData);
+
+                document.getElementById('imp-rol').textContent = datos.rol || 'Docente';
+                document.getElementById('imp-codigo').textContent = datos.codigo || 'N/A';
+                document.getElementById('imp-nombre').textContent = datos.nombreCompleto || '';
+                document.getElementById('imp-ci').textContent = datos.ci || '';
+                document.getElementById('imp-nacimiento').textContent = datos.nacimiento || '';
+                document.getElementById('imp-telefono').textContent = datos.telefono || '';
+                document.getElementById('imp-direccion').textContent = datos.direccion || '';
+                document.getElementById('imp-especialidad').textContent = datos.especialidad || '';
+
+                // Datos del padre/tutor o contacto enlazado
+                document.getElementById('imp-enlace-nombre').textContent = datos.enlaceNombre || 'No registrado';
+                document.getElementById('imp-enlace-relacion').textContent = datos.enlaceRelacion || 'Contacto de Emergencia / Tutor';
+                document.getElementById('imp-enlace-tel').textContent = datos.enlaceTel || '---';
+                document.getElementById('imp-enlace-dir').textContent = datos.enlaceDir || '---';
+
+                // Credenciales y OTAN
+                document.getElementById('imp-correo').textContent = datos.correo || '';
+                document.getElementById('imp-password').textContent = datos.password || '';
+                document.getElementById('imp-nato').textContent = datos.nato || '';
+
+                // Opcional: abrir el diálogo de impresión automáticamente tras cargar
+                setTimeout(() => window.print(), 400);
+            }
+        });
+    </script>
+</body>
+</html>
