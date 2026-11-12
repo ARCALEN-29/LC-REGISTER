@@ -10,8 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="splash.css">
 </head>
 <body>
+
+    <div id="app-splash" class="app-splash" role="status" aria-live="polite">
+        <div class="splash-orb splash-orb--one"></div>
+        <div class="splash-orb splash-orb--two"></div>
+        <div class="splash-card">
+            <img class="splash-emblem" src="logo.png" alt="LC Academy">
+            <span class="splash-eyebrow">BIENVENIDO A</span>
+            <h1>LC Academy</h1>
+            <p>Excelencia, conocimiento y futuro.</p>
+            <div class="splash-progress" aria-hidden="true"><span></span></div>
+            <span class="splash-status">Preparando tu espacio</span>
+        </div>
+    </div>
 
     <!-- MODAL DE NOTIFICACIÓN -->
     <div id="modal-notification" class="modal-overlay hidden">
@@ -31,78 +45,46 @@
             <p>Acceso Restringido | LC Academy</p>
         </div>
 
-        <div class="space-y-4">
+        <form id="admin-login-form" class="space-y-4" autocomplete="on">
             <div class="input-group">
                 <label for="admin-email" class="label-premium">Correo Electrónico</label>
-                <input type="email" id="admin-email" name="admin-email" class="input-premium" placeholder="admin@lc-academy.com" required>
+                <input type="email" id="admin-email" name="username" class="input-premium" placeholder="admin@lc-academy.com" autocomplete="username" required>
             </div>
             <div class="input-group">
                 <label for="admin-pass" class="label-premium">Contraseña</label>
                 <div class="password-wrapper">
-                    <input type="password" id="admin-pass" name="admin-pass" class="input-premium" placeholder="••••••••" required>
+                    <input type="password" id="admin-pass" name="password" class="input-premium" placeholder="••••••••" autocomplete="current-password" required>
                     <span class="toggle-password" onclick="togglePass('admin-pass', this)">
                         <i class="fas fa-eye"></i>
                     </span>
                 </div>
             </div>
-            <button id="login-btn" class="btn-premium mt-4" onclick="login()">INGRESAR AL SISTEMA</button>
-        </div>
+            <p id="login-message" class="login-message" role="alert" aria-live="polite"></p>
+            <button id="login-btn" type="submit" class="btn-premium mt-4">INGRESAR AL SISTEMA</button>
+        </form>
     </div>
 
-    <!-- SECCIÓN DEL PANEL ADMINISTRATIVO -->
-    <div id="admin-panel" class="hidden glass-card">
-        <div class="header-flex">
-            <div>
-                <h1>Registro Administrativo</h1>
-                <p>Gestión de Matrículas y Contratos</p>
-            </div>
-            <button id="logout-btn" class="logout-btn" onclick="logout()">Cerrar Sesión</button>
-        </div>
 
-        <!-- ÁREA DE IMPRESIÓN (OCULTA) -->
-        <div id="print-area" class="hidden">
-            <div id="print-sheet" class="print-sheet">
-                <div class="print-header">
-                    <h1 class="font-cinzel">LC ACADEMY</h1>
-                    <p class="subtitle">DATOS DE ACCESO<br>TU CUENTA · NUESTRO COMPROMISO</p>
-                </div>
-                <div id="print-content" class="print-grid">
-                    <!-- Datos dinámicos aquí -->
-                </div>
-                <div class="print-footer">
-                    <span class="phrase">"GRANDES COSAS COMIENZAN CON UN SOLO INGRESO"</span>
-                    <div class="signature-block">
-                        <div class="signature-line">Firma del Tutor</div>
-                        <div class="signature-line">Fecha de Registro</div>
-                    </div>
-                    <div style="margin-top: 20px; text-align: center;">
-                        <button onclick="window.print()" class="btn-premium" style="width: auto; padding: 10px 20px; font-size: 12px;">IMPRIMIR FICHA</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SELECCIÓN DE ROL -->
-        <div id="role-selection-step" class="fade-in">
-            <h2 class="text-center">Seleccione el tipo de usuario a registrar</h2>
-            <div class="role-selector-container">
-                <div class="role-option" onclick="navigateToRole('estudiantes.html')">
-                    <span><i class="fas fa-user-graduate"></i></span>
-                    Estudiante
-                </div>
-                <div class="role-option" onclick="navigateToRole('teacher.html')">
-                    <span><i class="fas fa-chalkboard-teacher"></i></span>
-                    Maestro
-                </div>
-                <div class="role-option" onclick="navigateToRole('parents.html')">
-                    <span><i class="fas fa-user-friends"></i></span>
-                    Padre de Familia
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script>
+        (() => {
+            const splash = document.getElementById('app-splash');
+            if (!splash) return;
+    
+            const minimumDuration = 3000; // 3 segundos visibles
+            const fadeOutDuration = 500;  // 0.5 segundos para la animación de salida
+    
+            window.setTimeout(() => {
+                splash.classList.add('app-splash--leaving');
+    
+                window.setTimeout(() => {
+                    splash.hidden = true;
+                    document.body.classList.add('app-ready');
+                }, fadeOutDuration);
+            }, minimumDuration);
+        })();
+    </script>
+    
+    <script type="module" src="script.js"></script>
 
     <!-- LÓGICA JAVASCRIPT BASE -->
     <script>
@@ -119,11 +101,6 @@
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
             }
-        }
-
-        function login() {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('admin-panel').classList.remove('hidden');
         }
 
         function logout() {

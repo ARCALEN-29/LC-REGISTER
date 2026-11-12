@@ -1,0 +1,162 @@
+.app-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    overflow: hidden;
+    place-items: center;
+    background-image: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.95)), 
+    url('fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 1;
+    transition: opacity 300ms ease, visibility 300ms ease;
+}
+
+.app-splash[hidden] {
+    display: none;
+}
+
+.app-splash--leaving {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.splash-card {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: min(680px, calc(100vw - 48px));
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 36px 36px;
+    border: 1px solid rgba(212, 175, 55, 0.24);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    text-align: center;
+    animation: splash-card-arrive 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.splash-emblem {
+    width: 82px;
+    max-width: none;
+    height: 82px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 22px rgba(212, 175, 55, 0.34));
+    animation: splash-emblem-pulse 2.4s ease-in-out infinite;
+}
+
+.splash-eyebrow {
+    margin-top: 24px;
+    color: rgba(253, 245, 230, 0.65);
+    font: 600 10px/1.5 'Quattrocento', serif;
+    letter-spacing: 3px;
+}
+
+.splash-card h1 {
+    margin: 6px 0 0;
+    color: #d4af37;
+    font: 700 30px/1.25 'Cinzel', serif;
+    letter-spacing: 1px;
+}
+
+.splash-card p {
+    margin: 10px 0 25px;
+    color: #c4c9d4;
+    font: 15px/1.5 'Quattrocento', serif;
+}
+
+.splash-progress {
+    width: 100%;
+    height: 3px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.splash-progress span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #9b7625, #f1d77c, #d4af37);
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: splash-progress-fill 3s linear both;
+}
+
+.splash-status {
+    margin-top: 13px;
+    color: #a0a8b8;
+    font: 12px/1.4 'Quattrocento', serif;
+    letter-spacing: 0.4px;
+}
+
+.splash-orb {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    filter: blur(95px);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.splash-orb--one {
+    top: -150px;
+    left: -100px;
+    background: #d4af37;
+    animation: splash-orb-drift 7s ease-in-out infinite alternate;
+}
+
+.splash-orb--two {
+    right: -130px;
+    bottom: -180px;
+    background: #526bc2;
+    animation: splash-orb-drift 8s ease-in-out infinite alternate-reverse;
+}
+
+.login-message {
+    min-height: 1.4em;
+    margin: 0;
+    color: #ff9a9a;
+    font: 14px/1.4 'Quattrocento', serif;
+}
+
+@keyframes splash-card-arrive {
+    from { opacity: 0; transform: translateY(14px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes splash-emblem-pulse {
+    0%, 100% { transform: scale(0.96); }
+    50% { transform: scale(1.04); }
+}
+
+@keyframes splash-progress-fill {
+    to { transform: scaleX(1); }
+}
+
+@keyframes splash-orb-drift {
+    to { transform: translate3d(35px, 24px, 0) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .splash-card,
+    .splash-emblem,
+    .splash-progress span,
+    .splash-orb {
+        animation-duration: 0.01ms;
+        animation-iteration-count: 1;
+    }
+
+    .app-splash {
+        transition-duration: 0.01ms;
+    }
+}
